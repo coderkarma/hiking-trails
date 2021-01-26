@@ -3,18 +3,45 @@ import { getAllTrailIds, getTrailData } from "../../lib/trails";
 
 const Trail = ({ trailData }) => {
     const router = useRouter();
-    const { trail_id } = router.query;
+    // const { trail_id } = router.query;
+
+    const infoDomain = new URL(trailData.info_url).host;
 
     return (
         <div>
             <h1>{trailData.title}</h1>
-            <p>{trailData.id}</p>
             <div
                 dangerouslySetInnerHTML={{
                     __html: trailData.contentHtml,
                 }}
             ></div>
-            <aside>Miles: {trailData.miles}</aside>
+            <aside class="box">
+                <h3>Trail Info</h3>
+                <ul>
+                    <li>
+                        <strong>Location:</strong> {trailData.location}
+                    </li>
+                    {trailData.elevation_change ? (
+                        <li>
+                            <strong>Elevation change:</strong>{" "}
+                            {trailData.elevation_change}
+                        </li>
+                    ) : null}
+                    <li>
+                        <strong>Miles:</strong> {trailData.miles}
+                    </li>
+                    <li>
+                        <strong>More info:</strong>{" "}
+                        <a
+                            href={trailData.info_url}
+                            target="_blank"
+                            rel="noreferrer noopener"
+                        >
+                            {infoDomain}
+                        </a>
+                    </li>
+                </ul>
+            </aside>
         </div>
     );
 };
